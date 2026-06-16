@@ -195,6 +195,33 @@ requests.post(f"{API}/event", json={"user_id": user_id, "converted": True})
 - Live results persist in `backend/experiment.db` and survive restarts. **Reset** in
   live mode wipes that data — use it deliberately.
 
+### Securing the ingest endpoint
+
+`POST /event` is open by default (handy for local dev). To require a shared secret,
+set the `INGEST_API_KEY` environment variable on the backend:
+
+```bash
+# local
+set INGEST_API_KEY=your-long-random-secret   # Windows cmd
+export INGEST_API_KEY=your-long-random-secret # bash
+# on Render: add it under Environment → Environment Variables
+```
+
+Callers must then send it as a header:
+
+```
+X-API-Key: your-long-random-secret
+```
+
+- `GET /assign` stays open (a variant assignment isn't sensitive and the browser needs it).
+- The traffic simulator picks the key up automatically:
+  `python simulate_live.py --api-key your-secret` (or via the `INGEST_API_KEY` env var).
+- **A key placed in browser JavaScript is visible to visitors** — it only deters casual
+  abuse. If you need the key to stay truly secret, send `/event` from your **server**,
+  not the browser.
+- The admin endpoints (`/reset`, `/config`, `/mode`) are still open; for a public
+  deployment, put the dashboard behind your own auth or a private network.
+
 ---
 
 ## Using the dashboard

@@ -56,6 +56,12 @@
     // ─────────────────────────────────────────────────────────────────────
     const API = 'http://localhost:8000'
 
+    // If the backend has INGEST_API_KEY set, put the same value here.
+    // NOTE: a key in browser code is visible to visitors -- it only deters
+    // casual abuse. For a truly secret key, send events from your server
+    // instead of the browser. Leave '' if the backend has no key configured.
+    const API_KEY = ''
+
     // 1. A STABLE USER ID. On a real site with accounts, use the logged-in
     //    user's id. For anonymous visitors, generate one and remember it so the
     //    same browser always gets the same variant.
@@ -104,9 +110,11 @@
     // session ended without a purchase. The backend dedupes by user_id, so the
     // first outcome reported for a user is the one that counts.
     function sendEvent(userId, converted) {
+      const headers = { 'Content-Type': 'application/json' }
+      if (API_KEY) headers['X-API-Key'] = API_KEY
       fetch(`${API}/event`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers,
         body: JSON.stringify({ user_id: userId, converted }),
       }).catch((e) => console.warn('Could not report event.', e))
     }

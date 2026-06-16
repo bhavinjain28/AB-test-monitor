@@ -20,9 +20,10 @@ WS   /ws            -> pushes the full experiment state as JSON every 400ms
 
 import asyncio
 import contextlib
+import os
 from typing import Optional
 
-from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi import Depends, FastAPI, Header, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
@@ -47,6 +48,17 @@ app.add_middleware(
 experiment = Experiment.create(mode="demo")
 db = EventStore()
 _sim_task: Optional[asyncio.Task] = None
+
+# Optional shared secret protecting the public ingest endpoint (/event).
+# If INGEST_API_KEY is set, callers must send it as the "X-API-Key" header.
+# If it's blank (e.g. local dev), /event stays open for convenience.
+INGEST_API_KEY = os.environ.get("INGEST_API_KEY", "").strip()
+
+
+def require_api_key(x_api_key: Optional[str] = Header(default=None, alias="X-API-Key")):
+    """Reject ingest requests with a missing/invalid key when one is configured."""
+    if INGEST_API_KEY and x_api_key != INGEST_API_KEY:
+        raise HTTPException(401, "missing or invalid X-API-Key header")
 
 
 async def _run_simulator() -> None:
@@ -176,10 +188,11 @@ async def assign(user_id: str) -> dict:
     return {"user_id": user_id, "variant": assign_variant(user_id)}
 
 
-@app.post("/event")
+@app.post("/event", dependencies=[Depends(require_api_key)])
 async def ingest_event(evt: Event) -> dict:
     """Ingest one real observation (live mode only).
 
+    Protected by the X-API-Key header when INGEST_API_KEY is configured.
     The variant is derived from user_id (sticky 50/50) unless explicitly given.
     Duplicate user_ids are ignored so each user counts exactly once.
     """

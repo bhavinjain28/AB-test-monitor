@@ -22,6 +22,7 @@ from __future__ import annotations
 import argparse
 import http.client
 import json
+import os
 import random
 import time
 import urllib.parse
@@ -35,15 +36,18 @@ class Client:
     makes rapid sequential requests stall. Keep-alive avoids that entirely.
     """
 
-    def __init__(self, base_url: str):
+    def __init__(self, base_url: str, api_key: str | None = None):
         parts = urllib.parse.urlparse(base_url)
         self.host = parts.hostname
         self.port = parts.port or 80
+        self.api_key = api_key
         self.conn = http.client.HTTPConnection(self.host, self.port, timeout=10)
 
     def _request(self, method: str, path: str, payload: dict | None = None) -> dict:
         body = json.dumps(payload).encode("utf-8") if payload is not None else None
         headers = {"Content-Type": "application/json"} if payload is not None else {}
+        if self.api_key:
+            headers["X-API-Key"] = self.api_key
         # Retry once on a dropped keep-alive connection.
         for attempt in range(2):
             try:
@@ -76,9 +80,11 @@ def main() -> None:
                         help="True conversion rate for the treatment variant")
     parser.add_argument("--delay", type=float, default=0.05,
                         help="Seconds to wait between users (0 = as fast as possible)")
+    parser.add_argument("--api-key", default=os.environ.get("INGEST_API_KEY", ""),
+                        help="X-API-Key for /event (defaults to INGEST_API_KEY env var)")
     args = parser.parse_args()
 
-    client = Client(args.url)
+    client = Client(args.url, api_key=args.api_key or None)
 
     # 1. Make sure the experiment is in live mode so events are accepted.
     print("Switching experiment to LIVE mode...")
