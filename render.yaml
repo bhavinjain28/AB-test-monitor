@@ -8,6 +8,10 @@ services:
     plan: free
     healthCheckPath: /status
     envVars:
+      # Pin Python: the dependency wheels (pydantic etc.) don't all build on
+      # Render's newer default Python, so a 3.12 runtime avoids source builds.
+      - key: PYTHON_VERSION
+        value: 3.12.6
       # Leave blank to keep /event open, or set a long random secret to require
       # the X-API-Key header. Render will prompt for this during Blueprint setup.
       - key: INGEST_API_KEY
