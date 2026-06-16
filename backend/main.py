@@ -123,6 +123,23 @@ async def _on_shutdown() -> None:
     await _stop_simulator()
 
 
+@app.get("/")
+async def root() -> dict:
+    """Friendly landing payload so the bare URL isn't a confusing 404."""
+    return {
+        "service": "A/B Test Monitor API",
+        "status": "ok",
+        "mode": experiment.mode,
+        "docs": "/docs",
+        "endpoints": {
+            "status": "/status",
+            "assign": "/assign?user_id=...",
+            "event": "/event (POST)",
+            "websocket": "/ws",
+        },
+    }
+
+
 @app.get("/status")
 async def get_status() -> dict:
     return experiment.to_dict()
