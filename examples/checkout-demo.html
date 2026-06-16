@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Example site · A/B test integration</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background: #0b0b10; color: #f4f4f5;
+           display: grid; place-items: center; min-height: 100vh; margin: 0; }
+    .card { background: #16161d; border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px; padding: 32px; width: 360px; text-align: center; }
+    h1 { font-size: 18px; margin: 0 0 4px; }
+    p  { color: #a1a1aa; font-size: 14px; margin: 0 0 24px; }
+    .product { background: #0b0b10; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+    .price { font-size: 28px; font-weight: 700; }
+
+    /* The two button variants we are testing. */
+    .buy { width: 100%; padding: 14px; border: none; border-radius: 10px; cursor: pointer;
+           font-size: 15px; font-weight: 600; }
+    .buy.control   { background: #3f3f46; color: #fff; }                 /* old button */
+    .buy.treatment { background: #10B981; color: #04120c; }              /* new button */
+
+    .meta { margin-top: 20px; font-size: 12px; color: #71717a; font-family: monospace; }
+    .meta b { color: #a5b4fc; }
+    .reset { margin-top: 16px; background: none; border: none; color: #6366F1;
+             cursor: pointer; font-size: 13px; }
+    .done { color: #10B981; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Acme Store</h1>
+    <p>A fake checkout page wired to the A/B monitor.</p>
+
+    <div class="product">
+      <div>Premium Plan</div>
+      <div class="price">$49</div>
+    </div>
+
+    <!-- The button's style/text is decided by the variant the monitor assigns. -->
+    <button id="buy" class="buy">Buy</button>
+    <div id="thanks" class="done" style="display:none">✓ Thanks for your purchase!</div>
+
+    <div class="meta">
+      user: <b id="uid">…</b><br />
+      variant: <b id="variant">…</b>
+    </div>
+    <button class="reset" onclick="newVisitor()">↻ Simulate a new visitor</button>
+  </div>
+
+  <script>
+    // ─────────────────────────────────────────────────────────────────────
+    // CONFIG — point this at your backend.
+    //   Local dev:  http://localhost:8000
+    //   Deployed:   https://your-backend.onrender.com
+    // ─────────────────────────────────────────────────────────────────────
+    const API = 'http://localhost:8000'
+
+    // 1. A STABLE USER ID. On a real site with accounts, use the logged-in
+    //    user's id. For anonymous visitors, generate one and remember it so the
+    //    same browser always gets the same variant.
+    function getUserId() {
+      let id = localStorage.getItem('ab_user_id')
+      if (!id) {
+        id = 'web_' + Math.random().toString(36).slice(2) + Date.now()
+        localStorage.setItem('ab_user_id', id)
+      }
+      return id
+    }
+
+    let hasConverted = false
+
+    // 2. ON PAGE LOAD — ask the monitor which variant to show, then render it.
+    async function init() {
+      const userId = getUserId()
+      document.getElementById('uid').textContent = userId
+
+      let variant = 'control'
+      try {
+        const res = await fetch(`${API}/assign?user_id=${encodeURIComponent(userId)}`)
+        variant = (await res.json()).variant
+      } catch (e) {
+        console.warn('Could not reach the A/B monitor — defaulting to control.', e)
+      }
+      document.getElementById('variant').textContent = variant
+
+      const btn = document.getElementById('buy')
+      btn.classList.add(variant)
+      // The treatment gets a punchier label — this is the change we are testing.
+      btn.textContent = variant === 'treatment' ? 'Buy Now →' : 'Buy'
+
+      // 3. ON CONVERSION — report the outcome exactly once for this user.
+      btn.onclick = () => reportConversion(userId)
+    }
+
+    function reportConversion(userId) {
+      hasConverted = true
+      sendEvent(userId, true)
+      document.getElementById('buy').style.display = 'none'
+      document.getElementById('thanks').style.display = 'block'
+    }
+
+    // One event per visitor. converted=true means they bought; false means the
+    // session ended without a purchase. The backend dedupes by user_id, so the
+    // first outcome reported for a user is the one that counts.
+    function sendEvent(userId, converted) {
+      fetch(`${API}/event`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId, converted }),
+      }).catch((e) => console.warn('Could not report event.', e))
+    }
+
+    // Helper for this demo: ending a session without buying is a non-conversion.
+    // Then forget the saved id so you can play a fresh visitor.
+    function newVisitor() {
+      if (!hasConverted) sendEvent(getUserId(), false)
+      localStorage.removeItem('ab_user_id')
+      location.reload()
+    }
+
+    init()
+  </script>
+</body>
+</html>
