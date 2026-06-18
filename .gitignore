@@ -11,3 +11,6 @@ venv/
 
 # Design handoff archive (binary, kept locally)
 *.zip
+
+# Design handoff source (kept locally, not needed in the repo)
+AB Test Monitor Landing Page-handoff/
