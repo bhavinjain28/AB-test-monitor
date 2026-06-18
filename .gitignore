@@ -8,3 +8,6 @@ venv/
 
 # Claude Code local settings
 .claude/settings.local.json
+
+# Design handoff archive (binary, kept locally)
+*.zip
