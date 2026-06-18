@@ -7,6 +7,8 @@ there's enough statistical evidence — no false-positive inflation from repeate
 
 ![stack](https://img.shields.io/badge/backend-FastAPI%20%C2%B7%20asyncio-009688) ![stack](https://img.shields.io/badge/frontend-React%20%C2%B7%20Vite%20%C2%B7%20Framer%20Motion-6366F1)
 
+<sub>Built by [Bhavin Jain](https://github.com/bhavinjain28) · [live demo](https://ab-test-monitor.vercel.app)</sub>
+
 ---
 
 ## Stack

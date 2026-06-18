@@ -383,6 +383,16 @@ export default function Briefing({ onBegin, onBack }) {
           <span>built for sequential testing</span>
           <span style={{ color: '#2a2a33' }}>·</span>
           <span>open source</span>
+          <span style={{ color: '#2a2a33' }}>·</span>
+          <a
+            className="link-mut"
+            href="https://github.com/bhavinjain28"
+            target="_blank"
+            rel="noreferrer"
+            style={{ color: '#5a5a66', textDecoration: 'none' }}
+          >
+            built by Bhavin Jain
+          </a>
         </div>
         <div className="flex items-center" style={{ gap: 8 }}>
           <span>press</span>

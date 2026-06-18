@@ -582,6 +582,16 @@ export default function Landing({ onRunDemo, onConfigure }) {
             <span>v0.4.2 · SPRT</span>
             <span style={{ color: '#4a4a55' }}>·</span>
             <span>MIT</span>
+            <span style={{ color: '#4a4a55' }}>·</span>
+            <a
+              className="link-mut"
+              href="https://github.com/bhavinjain28"
+              target="_blank"
+              rel="noreferrer"
+              style={{ color: '#6b6b78', textDecoration: 'none' }}
+            >
+              built by Bhavin Jain
+            </a>
           </div>
           <div className="flex" style={{ gap: 22 }}>
             <a href="https://github.com/bhavinjain28/AB-test-monitor" target="_blank" rel="noreferrer" className="link-mut" style={{ color: '#a0a0ad', textDecoration: 'none' }}>
