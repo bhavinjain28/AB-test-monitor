@@ -2,53 +2,196 @@
 @tailwind components;
 @tailwind utilities;
 
+html,
 body {
-  background: #09090b;
-  color: #f4f4f5;
-  font-family: 'Inter', sans-serif;
   margin: 0;
+  padding: 0;
+  background: #0a0a0f;
+  color: #f4f4f8;
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: rgba(124, 110, 242, 0.4);
+  color: #fff;
 }
 
 .mono {
   font-family: 'JetBrains Mono', monospace;
 }
+.serif {
+  font-family: 'Instrument Serif', serif;
+}
 
-/* Dark styled inputs for the config panel */
+/* Tabular numbers for data readouts */
+.tnum {
+  font-feature-settings: 'tnum';
+  font-variant-numeric: tabular-nums;
+}
+
+/* Range sliders, purple-themed to match the design */
+input[type='range'] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  width: 100%;
+  cursor: pointer;
+}
+input[type='range']::-webkit-slider-runnable-track {
+  height: 4px;
+  background: #2a2a33;
+  border-radius: 999px;
+  border: 1px solid #3a3a44;
+}
+input[type='range']::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #fafafa;
+  margin-top: -7px;
+  cursor: grab;
+  box-shadow: 0 0 0 3px #14141a, 0 0 0 4px #3a3a44, 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+input[type='range']:hover::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px #14141a, 0 0 0 4px #7c6ef2, 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+input[type='range']:active::-webkit-slider-thumb {
+  cursor: grabbing;
+}
+input[type='range']::-moz-range-track {
+  height: 4px;
+  background: #2a2a33;
+  border-radius: 999px;
+  border: 1px solid #3a3a44;
+}
+input[type='range']::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #fafafa;
+  border: none;
+  cursor: grab;
+  box-shadow: 0 0 0 3px #14141a, 0 0 0 4px #3a3a44, 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+/* Dark text inputs */
 .input-dark {
-  background: #18181f;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 8px;
-  color: #f4f4f5;
+  background: #14141a;
+  border: 1px solid #2a2a33;
+  border-radius: 6px;
+  color: #f4f4f8;
   font-family: 'JetBrains Mono', monospace;
-  font-size: 13px;
-  padding: 8px 12px;
+  font-size: 14px;
+  padding: 10px 14px;
   width: 100%;
   outline: none;
   transition: border-color 0.15s;
   box-sizing: border-box;
 }
 .input-dark:focus {
-  border-color: rgba(99, 102, 241, 0.5);
+  border-color: #7c6ef2;
 }
 
-input[type='range'] {
-  accent-color: #6366f1;
-  width: 100%;
+input:focus {
+  outline: none;
 }
 
-/* Pulse ring used by the status orb */
-@keyframes pulse-ring {
+/* Reusable interactive elements (hover states kept out of inline styles) */
+.btn-primary {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 600;
+  color: #fff;
+  background: #7c6ef2;
+  border: 1px solid #7c6ef2;
+  border-radius: 9px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 28px rgba(124, 110, 242, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: transform 0.12s ease, box-shadow 0.18s ease, background 0.15s ease;
+}
+.btn-primary:hover {
+  transform: translateY(-1px);
+  background: #8b7ff5;
+  box-shadow: 0 14px 38px rgba(124, 110, 242, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+.btn-ghost {
+  font-family: 'Inter Tight', sans-serif;
+  font-weight: 500;
+  color: #e8e8ed;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 9px;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+.link-mut {
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+.link-mut:hover {
+  color: #f4f4f8;
+}
+.row-hover {
+  transition: background 0.15s ease;
+}
+.row-hover:hover {
+  background: #1c1c24 !important;
+}
+
+/* Keyframes used by inline styles (SVG draw, ticker, etc.) */
+@keyframes draw {
   0% {
-    transform: scale(1);
-    opacity: 0.6;
+    stroke-dashoffset: 1;
+  }
+  55% {
+    stroke-dashoffset: 0;
+  }
+  88% {
+    stroke-dashoffset: 0;
   }
   100% {
-    transform: scale(2.2);
+    stroke-dashoffset: 1;
+  }
+}
+@keyframes end-dot {
+  0%,
+  50% {
     opacity: 0;
+    transform: scale(0.4);
+  }
+  55%,
+  85% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+}
+@keyframes walk {
+  from {
+    stroke-dashoffset: 1200;
+  }
+  to {
+    stroke-dashoffset: 0;
   }
 }
 
-/* Subtle scrollbar styling for the dark theme */
+/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

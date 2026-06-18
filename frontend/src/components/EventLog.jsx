@@ -8,10 +8,10 @@ export default function EventLog({ events = [] }) {
   return (
     <div className="flex flex-col">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs uppercase tracking-wider text-textSec">Event log</span>
+        <span className="mono text-[10px] uppercase tracking-[0.16em] text-textMut">Event log</span>
         <span className="mono text-xs text-textMut">{events.length} events</span>
       </div>
-      <div className="overflow-hidden h-48 rounded-xl border border-white/[0.07] bg-surface">
+      <div className="overflow-hidden h-48 rounded-xl border border-border bg-surface">
         <AnimatePresence initial={false}>
           {recent.length === 0 && (
             <div className="flex items-center justify-center h-full text-xs text-textMut">
@@ -28,15 +28,15 @@ export default function EventLog({ events = [] }) {
             >
               <span
                 className={`w-20 mono ${
-                  e.variant === 'treatment' ? 'text-indigo-400' : 'text-zinc-400'
+                  e.variant === 'treatment' ? 'text-accentBright' : 'text-textSec'
                 }`}
               >
                 {e.variant}
               </span>
-              <span className={e.converted ? 'text-emerald-400' : 'text-zinc-600'}>
+              <span className={`mono ${e.converted ? 'text-success' : 'text-textMut'}`}>
                 {e.converted ? '● converted' : '○ visited'}
               </span>
-              <span className="ml-auto text-zinc-600 mono">{e.llr.toFixed(3)}</span>
+              <span className="ml-auto text-textMut mono">{e.llr.toFixed(3)}</span>
             </motion.div>
           ))}
         </AnimatePresence>

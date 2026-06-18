@@ -25,15 +25,15 @@ export default function MetricCard({
 }) {
   return (
     <motion.div
-      whileHover={{ borderColor: 'rgba(99,102,241,0.35)', y: -2 }}
+      whileHover={{ borderColor: 'rgba(124,110,242,0.40)', y: -2 }}
       transition={{ duration: 0.2 }}
       className="border rounded-xl p-5 bg-surface flex flex-col gap-1"
       style={{
-        borderColor: highlight ? 'rgba(99,102,241,0.35)' : 'rgba(255,255,255,0.07)',
-        boxShadow: highlight ? '0 0 24px rgba(99,102,241,0.08)' : 'none',
+        borderColor: highlight ? 'rgba(124,110,242,0.40)' : 'rgba(255,255,255,0.07)',
+        boxShadow: highlight ? '0 0 24px rgba(124,110,242,0.12)' : 'none',
       }}
     >
-      <span className="text-xs uppercase tracking-wider text-textSec">{label}</span>
+      <span className="mono text-[10px] uppercase tracking-[0.16em] text-textMut">{label}</span>
       <CountUp
         end={value ?? 0}
         decimals={decimals}

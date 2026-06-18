@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #1a1a1a; color: #fafafa; font-family: 'Geist', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  ::selection { background: #7c5cff; color: #fff; }
+  input[type="range"] { -webkit-appearance: none; appearance: none; background: transparent; }
+  input[type="range"]::-webkit-slider-runnable-track { height: 4px; background: #3d3d3d; border-radius: 999px; border: 1px solid #4a4a4a; }
+  input[type="range"]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; border-radius: 999px; background: #fafafa; margin-top: -7px; cursor: grab; box-shadow: 0 0 0 3px #222, 0 0 0 4px #4a4a4a, 0 2px 6px rgba(0,0,0,.5); }
+  input[type="range"]:active::-webkit-slider-thumb { cursor: grabbing; }
+  input[type="range"]:hover::-webkit-slider-thumb { box-shadow: 0 0 0 3px #222, 0 0 0 4px #7c5cff, 0 2px 6px rgba(0,0,0,.5); }
+  input[type="range"]::-moz-range-track { height: 4px; background: #3d3d3d; border-radius: 999px; border: 1px solid #4a4a4a; }
+  input[type="range"]::-moz-range-thumb { width: 16px; height: 16px; border-radius: 999px; background: #fafafa; border: none; cursor: grab; box-shadow: 0 0 0 3px #222, 0 0 0 4px #4a4a4a, 0 2px 6px rgba(0,0,0,.5); }
+  input[type="text"], input[type="number"] { font-family: inherit; }
+  input:focus { outline: none; }
+  @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .55; transform: scale(.85); } }
+  @keyframes walk { from { stroke-dashoffset: 1200; } to { stroke-dashoffset: 0; } }
+  @keyframes fade-in { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes shimmer { 0% { background-position: -200px 0; } 100% { background-position: 200px 0; } }
+  @keyframes blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+</style>
+</helmet>
+
+<div style="min-height:100vh; width:100%; background:#1a1a1a; background-image: radial-gradient(circle at 18% 12%, rgba(124,92,255,0.10), transparent 45%), radial-gradient(circle at 92% 88%, rgba(124,92,255,0.06), transparent 50%); display:flex; flex-direction:column; padding:32px 48px 28px; font-family:'Geist', system-ui, sans-serif;">
+
+  <!-- Header -->
+  <header style="display:flex; align-items:center; justify-content:space-between; padding-bottom:28px; border-bottom:1px solid #2a2a2a;">
+    <div style="display:flex; align-items:center; gap:14px;">
+      <div style="position:relative; width:10px; height:10px;">
+        <div style="position:absolute; inset:0; border-radius:999px; background:#7c5cff; box-shadow:0 0 18px #7c5cff;"></div>
+        <div style="position:absolute; inset:-3px; border-radius:999px; background:#7c5cff; opacity:.25; animation:pulse-dot 2.2s ease-in-out infinite;"></div>
+      </div>
+      <span style="font-family:'Geist Mono', monospace; font-size:13px; letter-spacing:.04em; color:#fafafa;">a/b test monitor</span>
+      <span style="font-family:'Geist Mono', monospace; font-size:11px; color:#5a5a5a; padding:3px 8px; border:1px solid #303030; border-radius:4px;">v0.1.2</span>
+    </div>
+    <nav style="display:flex; align-items:center; gap:28px; font-family:'Geist Mono', monospace; font-size:12px; color:#7a7a7a;">
+      <span style="cursor:pointer;" style-hover="color:#fafafa;">docs</span>
+      <span style="cursor:pointer;" style-hover="color:#fafafa;">method</span>
+      <span style="cursor:pointer;" style-hover="color:#fafafa;">github ↗</span>
+    </nav>
+  </header>
+
+  <!-- Body -->
+  <div style="flex:1; display:grid; grid-template-columns: 1fr 480px; gap:80px; padding-top:56px; max-width:1440px; width:100%; margin:0 auto;">
+
+    <!-- LEFT: editorial / method -->
+    <section style="display:flex; flex-direction:column; gap:48px; min-width:0;">
+
+      <div style="display:flex; flex-direction:column; gap:24px;">
+        <div style="display:flex; align-items:center; gap:10px; font-family:'Geist Mono', monospace; font-size:11px; letter-spacing:.18em; color:#7c5cff; text-transform:uppercase;">
+          <span style="width:24px; height:1px; background:#7c5cff;"></span>
+          <span>experiment console</span>
+        </div>
+        <h1 style="margin:0; font-family:'Geist', sans-serif; font-weight:500; font-size:64px; line-height:1.02; letter-spacing:-0.035em; color:#fafafa; text-wrap:balance;">
+          Stop your A/B&nbsp;test<br>
+          <span style="font-family:'Instrument Serif', serif; font-style:italic; font-weight:400; color:#cfc6ff;">the moment</span> the data&nbsp;decides.
+        </h1>
+        <p style="margin:0; max-width:560px; font-size:16px; line-height:1.55; color:#9a9a9a; text-wrap:pretty;">
+          A sequential testing console for product teams who'd rather not wait for a fixed-horizon sample size to tick over. Set thresholds, watch the log-likelihood walk, and call the experiment as soon as it crosses.
+        </p>
+      </div>
+
+      <!-- mini visualisation -->
+      <div style="display:flex; flex-direction:column; gap:18px;">
+        <div style="display:flex; align-items:baseline; justify-content:space-between;">
+          <div style="font-family:'Geist Mono', monospace; font-size:11px; letter-spacing:.12em; color:#7a7a7a; text-transform:uppercase;">method · wald glr</div>
+          <div style="font-family:'Geist Mono', monospace; font-size:11px; color:#5a5a5a;">illustrative</div>
+        </div>
+        <div style="position:relative; height:180px; border:1px solid #2a2a2a; border-radius:6px; background:#202020; padding:18px 20px; overflow:hidden;">
+          <!-- threshold labels -->
+          <div style="position:absolute; left:20px; top:14px; font-family:'Geist Mono', monospace; font-size:10px; color:#34d399; letter-spacing:.04em;">winner threshold ─────────────────────────</div>
+          <div style="position:absolute; left:20px; bottom:14px; font-family:'Geist Mono', monospace; font-size:10px; color:#ef4444; letter-spacing:.04em;">no-effect threshold ─────────────────────</div>
+          <!-- sparkline -->
+          <svg viewBox="0 0 600 180" preserveAspectRatio="none" style="position:absolute; inset:0; width:100%; height:100%;">
+            <defs>
+              <linearGradient id="glr-grad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#7c5cff" stop-opacity="0.35"></stop>
+                <stop offset="100%" stop-color="#7c5cff" stop-opacity="0"></stop>
+              </linearGradient>
+            </defs>
+            <!-- dashed thresholds -->
+            <line x1="0" y1="34" x2="600" y2="34" stroke="#34d399" stroke-width="1" stroke-dasharray="4 6" opacity=".55"></line>
+            <line x1="0" y1="146" x2="600" y2="146" stroke="#ef4444" stroke-width="1" stroke-dasharray="4 6" opacity=".55"></line>
+            <!-- fill -->
+            <path d="M0,90 L20,88 L42,95 L68,84 L92,92 L120,80 L148,86 L176,72 L202,78 L228,64 L256,70 L284,58 L312,66 L340,52 L368,58 L392,46 L420,52 L448,40 L476,46 L500,36 L524,42 L548,34 L572,32 L600,30 L600,180 L0,180 Z" fill="url(#glr-grad)"></path>
+            <!-- line -->
+            <path d="M0,90 L20,88 L42,95 L68,84 L92,92 L120,80 L148,86 L176,72 L202,78 L228,64 L256,70 L284,58 L312,66 L340,52 L368,58 L392,46 L420,52 L448,40 L476,46 L500,36 L524,42 L548,34 L572,32 L600,30" fill="none" stroke="#7c5cff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1200" style="animation: walk 4.5s ease-out forwards;"></path>
+            <!-- endpoint -->
+            <circle cx="600" cy="30" r="3.5" fill="#7c5cff" style="animation: fade-in .4s ease-out 4.3s both;"></circle>
+            <circle cx="600" cy="30" r="8" fill="none" stroke="#7c5cff" stroke-width="1" opacity=".4" style="animation: fade-in .4s ease-out 4.3s both;"></circle>
+          </svg>
+        </div>
+        <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap:1px; background:#2a2a2a; border:1px solid #2a2a2a; border-radius:6px; overflow:hidden;">
+          <div style="background:#202020; padding:16px 18px;">
+            <div style="font-family:'Geist Mono', monospace; font-size:10px; color:#7a7a7a; letter-spacing:.12em; text-transform:uppercase; margin-bottom:8px;">01 · configure</div>
+            <div style="font-size:13px; color:#cacaca; line-height:1.45;">Set the baseline, target lift, and your false-positive / false-negative tolerances.</div>
+          </div>
+          <div style="background:#202020; padding:16px 18px;">
+            <div style="font-family:'Geist Mono', monospace; font-size:10px; color:#7a7a7a; letter-spacing:.12em; text-transform:uppercase; margin-bottom:8px;">02 · stream</div>
+            <div style="font-size:13px; color:#cacaca; line-height:1.45;">Pipe events from your source. The likelihood ratio updates per visitor in real time.</div>
+          </div>
+          <div style="background:#202020; padding:16px 18px;">
+            <div style="font-family:'Geist Mono', monospace; font-size:10px; color:#7a7a7a; letter-spacing:.12em; text-transform:uppercase; margin-bottom:8px;">03 · decide</div>
+            <div style="font-size:13px; color:#cacaca; line-height:1.45;">Stop as soon as the walk crosses a threshold — usually well before fixed-N.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- recent -->
+      <div style="display:flex; flex-direction:column; gap:12px; margin-top:auto;">
+        <div style="font-family:'Geist Mono', monospace; font-size:11px; letter-spacing:.12em; color:#5a5a5a; text-transform:uppercase;">recent experiments</div>
+        <div style="display:flex; flex-direction:column; gap:1px; background:#2a2a2a; border:1px solid #2a2a2a; border-radius:6px; overflow:hidden;">
+          <sc-for list="{{ recents }}" as="r" hint-placeholder-count="3">
+            <div style="display:grid; grid-template-columns: 1fr 90px 110px 80px; align-items:center; gap:20px; padding:11px 16px; background:#202020; font-family:'Geist Mono', monospace; font-size:12px; cursor:pointer;" style-hover="background:#252525;">
+              <span style="color:#dcdcdc;">{{ r.name }}</span>
+              <span style="color:{{ r.statusColor }}; font-size:11px; letter-spacing:.06em;">{{ r.status }}</span>
+              <span style="color:#7a7a7a;">{{ r.visitors }} visitors</span>
+              <span style="color:#5a5a5a; text-align:right;">{{ r.when }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: config card -->
+    <section style="position:relative;">
+      <div style="position:sticky; top:24px; background:#333222; border:1px solid #2e2e2e; border-radius:10px; overflow:hidden; box-shadow: 0 1px 0 rgba(255,255,255,0.03) inset, 0 30px 80px -20px rgba(0,0,0,0.6);">
+        <!-- card header -->
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 22px; border-bottom:1px solid #2e2e2e; background:linear-gradient(180deg, #363636, #333222);">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="font-family:'Geist Mono', monospace; font-size:11px; letter-spacing:.16em; color:#7c5cff; text-transform:uppercase;">new experiment</div>
+          </div>
+          <div style="font-family:'Geist Mono', monospace; font-size:10px; color:#5a5a5a;">draft · unsaved</div>
+        </div>
+
+        <div style="padding:22px; display:flex; flex-direction:column; gap:22px;">
+
+          <!-- name -->
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <label style="font-family:'Geist Mono', monospace; font-size:10px; letter-spacing:.14em; color:#8a8a8a; text-transform:uppercase;">name</label>
+            <div style="display:flex; align-items:center; gap:8px; padding:11px 14px; border:1px solid #333; border-radius:6px; background:#1a1a1a;" style-focus-within="border-color:#7c5cff;">
+              <span style="font-family:'Geist Mono', monospace; color:#5a5a5a; font-size:14px;">$</span>
+              <input type="text" value="checkout_cta_v2" style="flex:1; background:transparent; border:none; color:#fafafa; font-family:'Geist Mono', monospace; font-size:14px; padding:0; min-width:0;">
+              <span style="font-family:'Geist Mono', monospace; font-size:10px; color:#5a5a5a;">↵</span>
+            </div>
+          </div>
+
+          <!-- hypothesis -->
+          <div style="display:flex; flex-direction:column; gap:8px;">
+            <label style="font-family:'Geist Mono', monospace; font-size:10px; letter-spacing:.14em; color:#8a8a8a; text-transform:uppercase;">hypothesis</label>
+            <div style="padding:11px 14px; border:1px solid #333; border-radius:6px; background:#1a1a1a; font-family:'Geist', sans-serif; font-size:13px; color:#cacaca; line-height:1.55; min-height:62px;">
+              A single-CTA checkout drawer lifts conversion by at least 2&nbsp;percentage points vs. the current dual-CTA layout.
+            </div>
+          </div>
+
+          <!-- data source -->
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <label style="font-family:'Geist Mono', monospace; font-size:10px; letter-spacing:.14em; color:#8a8a8a; text-transform:uppercase;">data source</label>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1px; background:#2e2e2e; border:1px solid #2e2e2e; border-radius:6px; overflow:hidden;">
+              <button style="background:#7c5cff; color:#fff; border:none; padding:11px 14px; font-family:'Geist Mono', monospace; font-size:12px; letter-spacing:.04em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;">
+                <span style="width:6px; height:6px; border-radius:999px; background:#fff;"></span>
+                demo
+              </button>
+              <button style="background:#1a1a1a; color:#9a9a9a; border:none; padding:11px 14px; font-family:'Geist Mono', monospace; font-size:12px; letter-spacing:.04em; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px;" style-hover="color:#fafafa; background:#252525;">
+                <span style="width:6px; height:6px; border-radius:999px; background:#3a3a3a;"></span>
+                live
+              </button>
+            </div>
+            <div style="font-size:11px; color:#6a6a6a; font-family:'Geist Mono', monospace; line-height:1.45;">simulated traffic · nothing is stored</div>
+          </div>
+
+          <!-- divider -->
+          <div style="height:1px; background:#2e2e2e; margin:2px 0;"></div>
+
+          <!-- numeric params -->
+          <div style="display:flex; flex-direction:column; gap:18px;" data-comment-anchor="7e5884d6cc-div">
+            <sc-for list="{{ params }}" as="p" hint-placeholder-count="5">
+              <div style="display:flex; flex-direction:column; gap:8px;">
+                <div style="display:flex; align-items:baseline; justify-content:space-between;">
+                  <div style="display:flex; flex-direction:column; gap:2px;">
+                    <span style="font-family:'Geist', sans-serif; font-size:13px; color:#fafafa;">{{ p.label }}</span>
+                    <span style="font-family:'Geist Mono', monospace; font-size:10px; color:#9a9a9a;">{{ p.hint }}</span>
+                  </div>
+                  <span style="font-family:'Geist Mono', monospace; font-size:15px; color:#fafafa; font-feature-settings:'tnum'; font-variant-numeric:tabular-nums;">{{ p.value }}</span>
+                </div>
+                <input type="range" min="{{ p.min }}" max="{{ p.max }}" step="{{ p.step }}" value="{{ p.raw }}" style="width:100%; cursor:pointer;" data-comment-anchor="a871157f06-input">
+              </div>
+            </sc-for>
+          </div>
+
+          <!-- divider -->
+          <div style="height:1px; background:#2e2e2e; margin:2px 0;"></div>
+
+          <!-- CTA -->
+          <button style="position:relative; display:flex; align-items:center; justify-content:space-between; padding:14px 18px; border-radius:6px; background:#7c5cff; color:#fff; border:none; font-family:'Geist', sans-serif; font-size:14px; font-weight:500; cursor:pointer; box-shadow: 0 0 0 1px #8b6fff inset, 0 8px 24px -8px rgba(124,92,255,.7);" style-hover="background:#8b6fff;">
+            <span style="display:flex; align-items:center; gap:10px;">
+              <span style="width:6px; height:6px; border-radius:999px; background:#fff; box-shadow:0 0 8px #fff;"></span>
+              Begin monitoring
+            </span>
+            <span style="display:flex; align-items:center; gap:6px; font-family:'Geist Mono', monospace; font-size:11px; opacity:.7;">
+              <span style="padding:1px 6px; border:1px solid rgba(255,255,255,.4); border-radius:3px;">↵</span>
+            </span>
+          </button>
+
+          <div style="display:flex; align-items:center; justify-content:space-between; padding-top:2px;">
+            <button style="background:none; border:none; color:#7a7a7a; font-family:'Geist Mono', monospace; font-size:11px; cursor:pointer; padding:0;" style-hover="color:#fafafa;">save as preset</button>
+            <button style="background:none; border:none; color:#7a7a7a; font-family:'Geist Mono', monospace; font-size:11px; cursor:pointer; padding:0;" style-hover="color:#fafafa;">load preset →</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Footer -->
+  <footer style="display:flex; align-items:center; justify-content:space-between; padding-top:32px; margin-top:48px; border-top:1px solid #2a2a2a; font-family:'Geist Mono', monospace; font-size:11px; color:#5a5a5a;">
+    <div style="display:flex; align-items:center; gap:24px;">
+      <span>built for sequential testing</span>
+      <span style="color:#2a2a2a;">·</span>
+      <span>open source</span>
+    </div>
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span>press</span>
+      <span style="padding:2px 6px; border:1px solid #363636; border-radius:3px; color:#9a9a9a;">↵</span>
+      <span>to begin</span>
+      <span style="display:inline-block; width:7px; height:14px; background:#7c5cff; margin-left:6px; animation:blink 1.1s steps(2) infinite; vertical-align:middle;"></span>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;: {&quot;width&quot;: 1440, &quot;height&quot;: 980}}">
+class Component extends DCLogic {
+  renderVals() {
+    const params = [
+      { label: 'Baseline CVR', hint: 'control conversion rate', raw: 0.10, min: 0.01, max: 0.5, step: 0.01, value: '0.10' },
+      { label: 'Target CVR',   hint: 'minimum detectable effect', raw: 0.12, min: 0.01, max: 0.5, step: 0.01, value: '0.12' },
+      { label: 'Alpha',        hint: 'false-positive tolerance',  raw: 0.05, min: 0.001, max: 0.2, step: 0.001, value: '0.05' },
+      { label: 'Beta',         hint: 'false-negative tolerance',  raw: 0.20, min: 0.001, max: 0.5, step: 0.001, value: '0.20' },
+      { label: 'Stream speed', hint: 'events per second',         raw: 3,    min: 1,    max: 50,  step: 1,     value: '3 / s' },
+    ];
+    const recents = [
+      { name: 'checkout_cta_v2',     status: 'WINNER',    statusColor: '#34d399', visitors: '2,148', when: '14m ago' },
+      { name: 'price_anchor_b',      status: 'NO EFFECT', statusColor: '#ef4444', visitors: '6,402', when: '2h ago' },
+      { name: 'onboarding_skip_v3',  status: 'WINNER',    statusColor: '#34d399', visitors: '987',   when: '1d ago' },
+      { name: 'pricing_page_hero',   status: 'RUNNING',   statusColor: '#7c5cff', visitors: '312',   when: 'live' },
+    ];
+    return { params, recents };
+  }
+}
+</script>
+</body>
+</html>

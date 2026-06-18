@@ -14,7 +14,7 @@ export default function DecisionBanner({ status, lift, totalVisitors = 0, onRese
         particleCount: 80,
         spread: 70,
         origin: { y: 0.4 },
-        colors: ['#6366F1', '#10B981', '#F4F4F5'],
+        colors: ['#7c6ef2', '#34d399', '#f4f4f8'],
       })
     }
     prevStatus.current = status
@@ -41,7 +41,7 @@ export default function DecisionBanner({ status, lift, totalVisitors = 0, onRese
             <p className="font-semibold text-white">
               {status === 'winner' ? 'Treatment wins' : 'No significant effect'}
             </p>
-            <p className="text-sm text-zinc-400 mono">
+            <p className="text-sm text-textSec mono">
               {status === 'winner'
                 ? `Lift: +${lift}% · ${totalVisitors.toLocaleString()} visitors`
                 : `Inconclusive after ${totalVisitors.toLocaleString()} visitors`}
@@ -49,7 +49,7 @@ export default function DecisionBanner({ status, lift, totalVisitors = 0, onRese
           </div>
           <button
             onClick={onReset}
-            className="ml-auto text-sm text-zinc-400 hover:text-white transition-colors"
+            className="ml-auto text-sm text-textSec hover:text-white transition-colors"
           >
             Reset experiment →
           </button>

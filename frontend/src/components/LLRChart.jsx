@@ -29,8 +29,8 @@ export default function LLRChart({ history = [], bounds = { A: -2.77, B: 2.77 } 
         <ComposedChart data={history} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
           <defs>
             <linearGradient id="llrGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#6366F1" stopOpacity={0.2} />
-              <stop offset="95%" stopColor="#6366F1" stopOpacity={0} />
+              <stop offset="5%" stopColor="#7c6ef2" stopOpacity={0.28} />
+              <stop offset="95%" stopColor="#7c6ef2" stopOpacity={0} />
             </linearGradient>
           </defs>
 
@@ -47,27 +47,27 @@ export default function LLRChart({ history = [], bounds = { A: -2.77, B: 2.77 } 
           {/* Decision boundaries */}
           <ReferenceLine
             y={bounds.B}
-            stroke="#10B981"
-            strokeDasharray="6 4"
+            stroke="#34d399"
+            strokeDasharray="6 6"
             strokeWidth={1}
             label={{
-              value: 'Winner threshold',
-              fill: '#10B981',
+              value: 'winner threshold',
+              fill: '#34d399',
               fontSize: 11,
-              fontFamily: 'Inter',
+              fontFamily: 'JetBrains Mono',
               position: 'insideTopLeft',
             }}
           />
           <ReferenceLine
             y={bounds.A}
-            stroke="#EF4444"
-            strokeDasharray="6 4"
+            stroke="#f87171"
+            strokeDasharray="6 6"
             strokeWidth={1}
             label={{
-              value: 'No-effect threshold',
-              fill: '#EF4444',
+              value: 'no-effect threshold',
+              fill: '#f87171',
               fontSize: 11,
-              fontFamily: 'Inter',
+              fontFamily: 'JetBrains Mono',
               position: 'insideBottomLeft',
             }}
           />
@@ -79,7 +79,7 @@ export default function LLRChart({ history = [], bounds = { A: -2.77, B: 2.77 } 
           <Area
             type="monotone"
             dataKey="llr"
-            stroke="#6366F1"
+            stroke="#9a8df5"
             strokeWidth={2}
             fill="url(#llrGrad)"
             dot={false}
@@ -92,8 +92,8 @@ export default function LLRChart({ history = [], bounds = { A: -2.77, B: 2.77 } 
               x={tip.t}
               y={tip.llr}
               r={4}
-              fill="#6366F1"
-              stroke="#09090B"
+              fill="#7c6ef2"
+              stroke="#0a0a0f"
               strokeWidth={2}
               isFront
             />
@@ -101,14 +101,14 @@ export default function LLRChart({ history = [], bounds = { A: -2.77, B: 2.77 } 
 
           <Tooltip
             contentStyle={{
-              background: '#18181F',
+              background: '#16161d',
               border: '1px solid rgba(255,255,255,0.1)',
               borderRadius: 8,
               fontFamily: 'JetBrains Mono',
               fontSize: 12,
             }}
-            labelStyle={{ color: '#A1A1AA' }}
-            itemStyle={{ color: '#6366F1' }}
+            labelStyle={{ color: '#9094a3' }}
+            itemStyle={{ color: '#9a8df5' }}
             formatter={(v) => [Number(v).toFixed(3), 'LLR']}
             labelFormatter={(t) => `t = ${t}`}
           />

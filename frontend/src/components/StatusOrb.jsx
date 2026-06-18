@@ -4,9 +4,9 @@
 //   no_effect -> red, solid (no pulse)
 
 const COLORS = {
-  running: '#6366F1',
-  winner: '#10B981',
-  no_effect: '#EF4444',
+  running: '#7c6ef2',
+  winner: '#34d399',
+  no_effect: '#f87171',
 }
 
 export default function StatusOrb({ status = 'running' }) {

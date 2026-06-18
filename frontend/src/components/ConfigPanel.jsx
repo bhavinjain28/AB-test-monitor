@@ -62,8 +62,8 @@ export default function ConfigPanel({ config, mode = 'demo', onApply, onReset, o
   const set = (key, value) => setDraft((d) => ({ ...d, [key]: value }))
 
   return (
-    <div className="border border-white/[0.07] rounded-xl p-5 bg-surface flex flex-col gap-4">
-      <span className="text-xs uppercase tracking-wider text-textSec">Experiment config</span>
+    <div className="border border-border rounded-xl p-5 bg-surface flex flex-col gap-4">
+      <span className="mono text-[10px] uppercase tracking-[0.16em] text-textMut">Experiment config</span>
 
       <ModeToggle mode={mode} onChange={onModeChange} />
 
