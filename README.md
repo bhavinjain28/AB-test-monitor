@@ -4,8 +4,6 @@ A real-time A/B testing dashboard built on **Sequential Probability Ratio Testin
 Unlike fixed-horizon tests, SPRT lets you peek at results continuously and stop the moment
 there's enough statistical evidence — no false-positive inflation from repeated peeking.
 
-> Dark, minimalist, scientific-instrument aesthetic. Every number animates.
-> The log-likelihood ratio (LLR) chart is the hero.
 
 ![stack](https://img.shields.io/badge/backend-FastAPI%20%C2%B7%20asyncio-009688) ![stack](https://img.shields.io/badge/frontend-React%20%C2%B7%20Vite%20%C2%B7%20Framer%20Motion-6366F1)
 
@@ -265,8 +263,3 @@ Locally it defaults to `http://localhost:8000`.
 
 ---
 
-## Why React instead of Streamlit?
-
-Streamlit can't support custom animations, WebSocket-driven chart streaming, or the level of
-micro-interaction this UI requires. React + Framer Motion gives full control over the
-scientific-instrument feel: streaming LLR line, animated counters, the dramatic decision moment.
